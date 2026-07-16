@@ -115,3 +115,4 @@ npm run dev
 npm run build
 ```
 The build process leverages Tailwind CSS v4 and output compilation optimizations, producing highly optimized static bundles under 500ms.
+# personal_blog
