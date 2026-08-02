@@ -1,180 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen, Rss, Mail, MapPin, Phone } from 'lucide-react';
-import { MOCK_POSTS, CATEGORIES } from '../data/posts';
-import { GithubIcon, TwitterIcon, LinkedinIcon, InstagramIcon } from './SocialIcons';
+import { Mail } from 'lucide-react';
+import { InstagramIcon } from './SocialIcons';
 
 export default function Footer() {
-  // Sort posts by date and get top 3 as latest posts
-  const latestPosts = [...MOCK_POSTS]
-    .sort((a, b) => new Date(b.publishDate) - new Date(a.publishDate))
-    .slice(0, 3);
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
-  // Take top 5 categories
-  const popularCategories = CATEGORIES.slice(0, 5);
-
-  const handleRSSClick = (e) => {
+  const handleSubscribe = (e) => {
     e.preventDefault();
-    alert("RSS feed placeholder: In a production environment, this link will direct to /rss.xml containing the latest posts in RSS 2.0 XML format.");
+    if (email.trim() && email.includes("@")) {
+      setSubscribed(true);
+      setEmail("");
+    }
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 transition-colors duration-300">
-      {/* Top Footer Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-
-          {/* Column 1: About the Journal */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="p-2 rounded bg-indigo-950 text-indigo-400 group-hover:bg-indigo-900 transition-all">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <span className="font-serif text-lg font-bold tracking-tight text-white group-hover:text-indigo-400 transition-colors">
-                My Private Journal
-              </span>
-            </Link>
-            <p className="text-sm text-slate-400 leading-relaxed">
-              A carefully curated digital library of ideas, software engineering tutorials, life lessons, travel diaries, and quiet reflections. Designed for curious readers who value deep content.
-            </p>
-            <div className="flex gap-4 pt-2">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="GitHub">
-                <GithubIcon className="w-4 h-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Twitter">
-                <TwitterIcon className="w-4 h-4" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="LinkedIn">
-                <LinkedinIcon className="w-4 h-4" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="Instagram">
-                <InstagramIcon className="w-4 h-4" />
-              </a>
-              <a href="/rss.xml" onClick={handleRSSClick} className="p-2 rounded-full bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500" aria-label="RSS Feed">
-                <Rss className="w-4 h-4" />
-              </a>
-            </div>
+    <footer className="bg-stone-900 text-stone-300 pt-16 pb-8 px-6 md:px-12 border-t border-stone-800">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        {/* Brand section */}
+        <div className="space-y-4">
+          <Link to="/" className="block">
+            <h2 className="text-xl md:text-2xl font-serif font-semibold tracking-[0.15em] text-white uppercase">
+              Sommeil
+            </h2>
+            <span className="text-[9px] tracking-[0.3em] text-stone-500 font-light block uppercase">
+              Organic &amp; Silk
+            </span>
+          </Link>
+          <p className="text-xs text-stone-400 font-light leading-relaxed max-w-xs">
+            A family-owned sustainable sleepwear brand dedicated to peaceful nights, safety, and environmentally responsible luxury.
+          </p>
+          <div className="flex items-center space-x-4 pt-2">
+            <a href="https://instagram.com" target="_blank" rel="noreferrer" className="text-stone-400 hover:text-white transition" aria-label="Instagram">
+              <InstagramIcon className="w-4 h-4" />
+            </a>
           </div>
+        </div>
 
-          {/* Column 2: Latest Posts */}
-          <div className="space-y-4">
-            <h3 className="font-serif text-base font-semibold tracking-wide text-white uppercase border-l-2 border-indigo-500 pl-3">
-              Latest Posts
-            </h3>
-            <ul className="space-y-3">
-              {latestPosts.map(post => (
-                <li key={post.id} className="group">
-                  <Link to={`/article/${post.slug}`} className="block focus:outline-none focus:underline">
-                    <p className="text-sm font-medium text-slate-200 group-hover:text-indigo-400 transition-colors line-clamp-2">
-                      {post.title}
-                    </p>
-                    <span className="text-xs text-slate-500 block mt-1">
-                      {new Date(post.publishDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        {/* Quick Links */}
+        <div className="space-y-4">
+          <h3 className="text-sm uppercase tracking-wider font-medium text-white">The Collections</h3>
+          <ul className="space-y-2 text-xs text-stone-400 font-light">
+            <li><Link to="/shop" className="hover:text-white transition">Shop All Sleepwear</Link></li>
+            <li><Link to="/shop?material=Organic Cotton" className="hover:text-white transition">Certified Organic Cotton</Link></li>
+            <li><Link to="/shop?material=Natural Silk" className="hover:text-white transition">Pure Mulberry Silk</Link></li>
+            <li><Link to="/shop?price=50" className="hover:text-white transition">Under $50 Pajamas</Link></li>
+          </ul>
+        </div>
 
-          {/* Column 3: Categories */}
-          <div className="space-y-4">
-            <h3 className="font-serif text-base font-semibold tracking-wide text-white uppercase border-l-2 border-indigo-500 pl-3">
-              Categories
-            </h3>
-            <ul className="space-y-2">
-              {popularCategories.map(cat => (
-                <li key={cat.slug}>
-                  <Link
-                    to={`/blog?category=${encodeURIComponent(cat.name)}`}
-                    className="text-sm text-slate-400 hover:text-indigo-400 flex justify-between items-center transition-colors focus:outline-none focus:underline"
-                  >
-                    <span>{cat.name}</span>
-                    <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full group-hover:bg-indigo-950">
-                      {MOCK_POSTS.filter(p => p.category.toLowerCase() === cat.name.toLowerCase()).length}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link to="/categories" className="text-sm text-indigo-400 hover:text-indigo-300 font-semibold focus:outline-none focus:underline">
-                  View All Categories &rarr;
-                </Link>
-              </li>
-            </ul>
-          </div>
+        {/* Brand Information */}
+        <div className="space-y-4">
+          <h3 className="text-sm uppercase tracking-wider font-medium text-white">Customer Care</h3>
+          <ul className="space-y-2 text-xs text-stone-400 font-light">
+            <li><Link to="/about" className="hover:text-white transition">Our Story</Link></li>
+            <li><Link to="/faq" className="hover:text-white transition">Sizing Chart &amp; Laundry Guide</Link></li>
+            <li><Link to="/faq#returns" className="hover:text-white transition">Returns &amp; Exchanges</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition">Contact Support</Link></li>
+          </ul>
+        </div>
 
-          {/* Column 4: Quick Contact */}
-          <div className="space-y-4" id="footer-newsletter">
-            <h3 className="font-serif text-base font-semibold tracking-wide text-white uppercase border-l-2 border-indigo-500 pl-3">
-              Contact & Journal
-            </h3>
-            <ul className="space-y-2 text-sm text-slate-400">
-              <li className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-indigo-500 flex-shrink-0" />
-                <span>San Francisco, CA, USA</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-indigo-500 flex-shrink-0" />
-                <a href="mailto:hello@myprivatejournal.com" className="hover:text-white transition-colors">
-                  hello@myprivatejournal.com
-                </a>
-              </li>
-              <li className="flex items-center gap-2">
-                <Phone className="w-4 h-4 text-indigo-500 flex-shrink-0" />
-                <span>+1 (415) 555-0199</span>
-              </li>
-            </ul>
-            <div className="pt-2">
-              <p className="text-xs text-slate-500 mb-2">Subscribe to our newsletter</p>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  const email = e.target.elements.footerEmail.value;
-                  if (email) {
-                    alert(`Thank you for subscribing, ${email}! We'll keep you updated.`);
-                    e.target.reset();
-                  }
-                }}
-                className="flex"
+        {/* Elegant Subscription */}
+        <div className="space-y-4">
+          <h3 className="text-sm uppercase tracking-wider font-medium text-white">Join Our Family</h3>
+          <p className="text-xs text-stone-400 font-light leading-relaxed">
+            Subscribe to discover new collection arrivals, exclusive family offers, and organic care tips.
+          </p>
+          <form onSubmit={handleSubscribe} className="space-y-2">
+            <div className="relative">
+              <input
+                type="email"
+                placeholder="Your email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full bg-stone-800 border border-stone-700 text-xs px-3 py-2.5 rounded text-white focus:outline-none focus:border-stone-400"
+              />
+              <button
+                type="submit"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-stone-400 hover:text-white text-xs font-semibold"
               >
-                <input
-                  name="footerEmail"
-                  type="email"
-                  placeholder="Your email..."
-                  required
-                  className="px-3 py-2 text-xs rounded-l bg-slate-800 text-white border-none focus:outline-none focus:ring-1 focus:ring-indigo-500 flex-grow"
-                />
-                <button
-                  type="submit"
-                  className="px-3 py-2 bg-indigo-600 text-white font-semibold text-xs rounded-r hover:bg-indigo-700 transition-colors cursor-pointer"
-                >
-                  Join
-                </button>
-              </form>
+                Join
+              </button>
             </div>
-          </div>
-
+            {subscribed && (
+              <p className="text-[10px] text-emerald-400 tracking-wide font-light">Welcome! Thank you for subscribing.</p>
+            )}
+          </form>
         </div>
       </div>
 
-      {/* Bottom Footer Section */}
-      <div className="bg-slate-950 py-6 border-t border-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-          <div>
-            &copy; {new Date().getFullYear()} My Private Journal. All rights reserved.
-          </div>
-          <div className="flex gap-6">
-            <Link to="/privacy-policy" className="hover:text-slate-300 transition-colors focus:outline-none focus:underline">
-              Privacy Policy
-            </Link>
-            <Link to="/privacy-policy#terms" className="hover:text-slate-300 transition-colors focus:outline-none focus:underline">
-              Terms of Service
-            </Link>
-            <a href="/rss.xml" onClick={handleRSSClick} className="hover:text-slate-300 transition-colors focus:outline-none focus:underline">
-              RSS
-            </a>
-          </div>
+      {/* Underbar */}
+      <div className="max-w-7xl mx-auto border-t border-stone-800 pt-8 flex flex-col md:flex-row justify-between items-center text-[11px] text-stone-500 font-light space-y-4 md:space-y-0">
+        <p>&copy; {new Date().getFullYear()} Sommeil Luxury Sleepwear. All Rights Reserved.</p>
+        <div className="flex space-x-6">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>Eco Certifications</span>
         </div>
       </div>
     </footer>

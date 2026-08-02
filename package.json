@@ -32,5 +32,8 @@
     "react-router-dom": "^7.18.1",
     "tailwindcss": "^4.3.2",
     "vite": "^8.1.4"
+  },
+  "dependencies": {
+    "framer-motion": "^12.43.0"
   }
 }
