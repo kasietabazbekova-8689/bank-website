@@ -1,0 +1,12 @@
+
+> app@1.0.0 dev
+> vite
+
+
+  VITE v8.1.4  ready in 388 ms
+
+  ➜  Local:   http://localhost:3000/bank-website/
+  ➜  Network: http://192.168.0.2:3000/bank-website/
+5:10:38 AM [vite] (client) hmr update /src/index.css, /src/components/SocialIcons.jsx
+5:10:43 AM [vite] (client) hmr update /src/index.css, /src/components/Header.jsx
+5:10:51 AM [vite] (client) hmr update /src/pages/Contact.jsx, /src/index.css

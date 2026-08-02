@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 export default function RootLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-brand-charcoal text-slate-800 dark:text-slate-100 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-stone-50 text-stone-900 selection:bg-stone-200 selection:text-stone-900">
       {/* Sticky Header */}
       <Header />
 
